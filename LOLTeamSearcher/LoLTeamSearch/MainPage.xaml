@@ -1,0 +1,27 @@
+﻿<Page
+    x:Class="LoLTeamSearch.MainPage"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:local="using:LoLTeamSearch"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:view="using:LoLTeamSearch.Controls" 
+    mc:Ignorable="d"
+    Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
+
+    <Grid>
+        <NavigationView x:Name="NaviView" Loaded="NaviView_Loaded" PaneDisplayMode="Top" SelectionChanged="NavigationView_SelectionChanged" ItemInvoked="NavigationView_ItemInvoked">
+            <NavigationView.MenuItems>
+                <NavigationViewItem Content="전적검색" Tag="SearchPage"/>
+                <NavigationViewItem Content="멀티서치" Tag="MultiPage"/>
+            </NavigationView.MenuItems>
+            <Frame x:Name="rootFrame">
+                <Frame.ContentTransitions>
+                    <TransitionCollection>
+                        <NavigationThemeTransition/>
+                    </TransitionCollection>
+                </Frame.ContentTransitions>
+            </Frame>
+        </NavigationView>
+    </Grid>
+</Page>
