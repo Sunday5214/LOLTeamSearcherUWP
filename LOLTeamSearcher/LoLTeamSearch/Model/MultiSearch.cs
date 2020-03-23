@@ -26,6 +26,12 @@ namespace LoLTeamSearch.Model
             set;
         }
 
+        public string Step
+        {
+            get;
+            set;
+        }
+
         public int Lose//league
         {
             get;

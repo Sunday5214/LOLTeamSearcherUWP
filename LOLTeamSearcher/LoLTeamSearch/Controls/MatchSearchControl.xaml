@@ -4,11 +4,137 @@
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:local="using:LoLTeamSearch.Controls"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
-    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" xmlns:converter="using:LoLTeamSearch.Controls.Converter"
     mc:Ignorable="d"
     Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
 
+    <Page.Resources>
+        <converter:ChampionToImageConverter x:Key="ChampionToImageConverter"/>
+        <converter:ItemToImageConverter x:Key="ItemToImageConverter"/>
+        <converter:RuneToImageConverter x:Key="RuneToImageConverter"/>
+        <converter:SpellToImageConverter x:Key="SpellToImageConverter"/>
+
+    </Page.Resources>
+    
     <Grid>
-        
+        <Grid>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="0.1*"/>
+                <RowDefinition Height="0.9*"/>
+            </Grid.RowDefinitions>
+            <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
+                <TextBox HorizontalAlignment="Center" x:Name="tbxMultiSearch" Margin="16 16 16 16" Text="{Binding SummorName, Mode=TwoWay, UpdateSourceTrigger=LostFocus}"
+                 PlaceholderText="소환사명을 입력해주세요" AcceptsReturn="True" Width="500" Height="50" VerticalContentAlignment="Center"/>
+                <Button Content="검색" Command="{Binding SearchCommand}"/>
+            </StackPanel>
+            
+
+            <ListView Grid.Row="1" ItemsSource="{Binding MatchHistories}" CanDragItems="False" CanReorderItems="True" HorizontalAlignment="Center">
+                <ListView.ItemTemplate>
+                    <DataTemplate>
+                        <Grid>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="0.2*"/>
+                                <ColumnDefinition Width="0.2*"/>
+                                <ColumnDefinition Width="0.1*"/>
+                                <ColumnDefinition Width="0.3*"/>
+                                <ColumnDefinition Width="0.1*"/>
+                                <ColumnDefinition Width="0.1*"/>
+                            </Grid.ColumnDefinitions>
+                            <StackPanel Grid.Column="0" HorizontalAlignment="Center" VerticalAlignment="Center">
+                                <StackPanel Orientation="Horizontal">
+                                    <Image Source="{Binding Champion, Converter={StaticResource ChampionToImageConverter}}" Width="92"/>
+                                    <StackPanel>
+                                        <Image Source="{Binding Spell1, Converter={StaticResource SpellToImageConverter}}" Width="45"/>
+                                        <Image Source="{Binding Spell2, Converter={StaticResource SpellToImageConverter}}" Width="45"/>
+                                    </StackPanel>
+                                    <StackPanel>
+                                        <Image Source="{Binding MainRune, Converter={StaticResource RuneToImageConverter}}" Width="45"/>
+                                        <Image Source="{Binding SubRune, Converter={StaticResource RuneToImageConverter}}" Width="45"/>
+                                    </StackPanel>
+                                </StackPanel>
+                                <TextBlock Text="{Binding ChampionName}" HorizontalAlignment="Center" Margin="0 5 0 0"/>
+                            </StackPanel>
+                            <StackPanel Grid.Column="1" Margin="20 0 0 0" HorizontalAlignment="Center" VerticalAlignment="Center">
+                                <TextBlock>
+                                    <Run Text="KDA"/>
+                                    <Run Text="{Binding Kill}"/>
+                                    <Run Text="/"/>
+                                    <Run Text="{Binding Death}"/>
+                                    <Run Text="/"/>
+                                    <Run Text="{Binding Assist}"/>
+                                </TextBlock>
+                                <TextBlock>
+                                    <Run Text="평점"/>
+                                    <Run Text="{Binding AverageKDA}"/>
+                                </TextBlock>
+                            </StackPanel>
+                            <StackPanel Grid.Column="2" Margin="20 0 0 0" HorizontalAlignment="Center" VerticalAlignment="Center">
+                                <TextBlock Text="{Binding Level}" HorizontalAlignment="Center" />
+                                <TextBlock Text="{Binding CS}" HorizontalAlignment="Center" />
+                                <TextBlock Text="{Binding Time}" HorizontalAlignment="Center" />
+                            </StackPanel>
+                            <StackPanel Grid.Column="3" Margin="20 0 0 0" HorizontalAlignment="Center" VerticalAlignment="Center">
+                                <StackPanel Orientation="Horizontal">
+                                    <Image Source="{Binding Item1, Converter={StaticResource ItemToImageConverter}}" Width="45"/>
+                                    <Image Source="{Binding Item2, Converter={StaticResource ItemToImageConverter}}" Width="45"/>
+                                    <Image Source="{Binding Item3, Converter={StaticResource ItemToImageConverter}}" Width="45"/>
+                                    <Image Source="{Binding Item4, Converter={StaticResource ItemToImageConverter}}" Width="45"/>
+                                </StackPanel>
+                                <StackPanel Orientation="Horizontal">
+                                    <Image Source="{Binding Item5, Converter={StaticResource ItemToImageConverter}}" Width="45"/>
+                                    <Image Source="{Binding Item6, Converter={StaticResource ItemToImageConverter}}" Width="45"/>
+                                    <Image Source="{Binding Item7, Converter={StaticResource ItemToImageConverter}}" Width="45"/>
+                                </StackPanel>
+                            </StackPanel>
+                            <StackPanel Grid.Column="4" Margin="20 0 0 0" HorizontalAlignment="Center" VerticalAlignment="Center">
+                                <StackPanel Orientation="Horizontal">
+                                    <Image Source="{Binding GameMemberDatas[0].GameMemberChampion, Converter={StaticResource ChampionToImageConverter}}" Width="30"/>
+                                    <TextBlock Text="{Binding GameMemberDatas[0].GameMemberName}"/>
+                                </StackPanel>
+                                <StackPanel Orientation="Horizontal">
+                                    <Image Source="{Binding GameMemberDatas[1].GameMemberChampion, Converter={StaticResource ChampionToImageConverter}}" Width="30"/>
+                                    <TextBlock Text="{Binding GameMemberDatas[1].GameMemberName}"/>
+                                </StackPanel>
+                                <StackPanel Orientation="Horizontal">
+                                    <Image Source="{Binding GameMemberDatas[2].GameMemberChampion, Converter={StaticResource ChampionToImageConverter}}" Width="30"/>
+                                    <TextBlock Text="{Binding GameMemberDatas[2].GameMemberName}"/>
+                                </StackPanel>
+                                <StackPanel Orientation="Horizontal">
+                                    <Image Source="{Binding GameMemberDatas[3].GameMemberChampion, Converter={StaticResource ChampionToImageConverter}}" Width="30"/>
+                                    <TextBlock Text="{Binding GameMemberDatas[3].GameMemberName}"/>
+                                </StackPanel>
+                                <StackPanel Orientation="Horizontal">
+                                    <Image Source="{Binding GameMemberDatas[4].GameMemberChampion, Converter={StaticResource ChampionToImageConverter}}" Width="30"/>
+                                    <TextBlock Text="{Binding GameMemberDatas[4].GameMemberName}"/>
+                                </StackPanel>
+                            </StackPanel>
+                            <StackPanel Grid.Column="5" Margin="20 0 0 0">
+                                <StackPanel Orientation="Horizontal" >
+                                    <Image Source="{Binding GameMemberDatas[5].GameMemberChampion, Converter={StaticResource ChampionToImageConverter}}" Width="30"/>
+                                    <TextBlock Text="{Binding GameMemberDatas[5].GameMemberName}"/>
+                                </StackPanel>
+                                <StackPanel Orientation="Horizontal">
+                                    <Image Source="{Binding GameMemberDatas[6].GameMemberChampion, Converter={StaticResource ChampionToImageConverter}}" Width="30"/>
+                                    <TextBlock Text="{Binding GameMemberDatas[6].GameMemberName}"/>
+                                </StackPanel>
+                                <StackPanel Orientation="Horizontal">
+                                    <Image Source="{Binding GameMemberDatas[7].GameMemberChampion, Converter={StaticResource ChampionToImageConverter}}" Width="30"/>
+                                    <TextBlock Text="{Binding GameMemberDatas[7].GameMemberName}"/>
+                                </StackPanel>
+                                <StackPanel Orientation="Horizontal">
+                                    <Image Source="{Binding GameMemberDatas[8].GameMemberChampion, Converter={StaticResource ChampionToImageConverter}}" Width="30"/>
+                                    <TextBlock Text="{Binding GameMemberDatas[8].GameMemberName}"/>
+                                </StackPanel>
+                                <StackPanel Orientation="Horizontal">
+                                    <Image Source="{Binding GameMemberDatas[9].GameMemberChampion, Converter={StaticResource ChampionToImageConverter}}" Width="35"/>
+                                    <TextBlock Text="{Binding GameMemberDatas[9].GameMemberName}"/>
+                                </StackPanel>
+                            </StackPanel>
+                        </Grid>
+                    </DataTemplate>
+                </ListView.ItemTemplate>
+            </ListView>
+        </Grid>
     </Grid>
 </Page>

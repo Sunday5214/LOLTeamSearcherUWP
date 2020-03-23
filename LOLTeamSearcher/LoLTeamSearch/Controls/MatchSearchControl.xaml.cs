@@ -25,6 +25,12 @@ namespace LoLTeamSearch.Controls
         public MatchSearchControl()
         {
             this.InitializeComponent();
+            Loaded += MatchSearchControl_Loaded;
+        }
+
+        private void MatchSearchControl_Loaded(object sender, RoutedEventArgs e)
+        {
+            DataContext = App.MatchHistorySearchViewModel;
         }
     }
 }

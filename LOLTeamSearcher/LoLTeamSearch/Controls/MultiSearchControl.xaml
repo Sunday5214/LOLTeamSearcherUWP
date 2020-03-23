@@ -5,63 +5,107 @@
     xmlns:local="using:LoLTeamSearch.Controls"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-    xmlns:model="using:LoLTeamSearch.Model"
+    xmlns:model="using:LoLTeamSearch.Model" xmlns:converter="using:LoLTeamSearch.Controls.Converter"
     mc:Ignorable="d"
     Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
 
+    <Page.Resources>
+        <converter:SummorTierToImageConverter x:Key="SummorTierToImageConverter"/>
+        <converter:ChampionToImageConverter x:Key="ChampionToImageConverter"/>
+    </Page.Resources>
+    
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="0.2*"/>
             <RowDefinition Height="0.8*"/>
         </Grid.RowDefinitions>
         <TextBox x:Name="tbxMultiSearch" Margin="16 16 16 16" Text="{Binding SummorNames, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
-                 PlaceholderText="xxx님이 입장하셨습니다. (Ctrl+C, V 해서 붙여주세요)"/>
-        <ListView Grid.Row="1">
+                 PlaceholderText="xxx님이 입장하셨습니다. (Ctrl+C, V 해서 붙여주세요)" AcceptsReturn="True"/>
+        
+        <ListView Grid.Row="1" ItemsSource="{Binding MultiSearchData}" CanDragItems="False" CanReorderItems="True">
             <ListView.ItemTemplate>
                 <DataTemplate x:DataType="model:MultiSearch">
                     <StackPanel Orientation="Horizontal">
                         <StackPanel>
-                            <TextBlock Text="{Binding Name}"/>
-                            <Image Source="{Binding Tier, Converter={StaticResource SummorTierToImageConverter}}"/>
+                            <TextBlock Text="{Binding Name}" HorizontalAlignment="Center"/>
+                            <Image Source="{Binding Tier, Converter={StaticResource SummorTierToImageConverter}}" Width="200" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                            <TextBlock HorizontalAlignment="Center" Margin="0 20 0 0">
+                                <Run Text="{Binding Tier}"/>
+                                <Run Text="-"/>
+                                <Run Text="{Binding Step}"/>
+                                <Run Text="-"/>
+                                <Run Text="{Binding Point}"/>
+                            </TextBlock>
                         </StackPanel>
-                        <ListView ItemsSource="{Binding MostChampions}">
-                            <ListView.ItemTemplate>
-                                <DataTemplate x:DataType="model:MostChampion">
-                                    <Grid>
-                                        <Grid.ColumnDefinitions>
-                                            <ColumnDefinition Width="0.3*"/>
-                                            <ColumnDefinition Width="0.1*"/>
-                                            <ColumnDefinition Width="0.3*"/>
-                                            <ColumnDefinition Width="0.4*"/>
-                                        </Grid.ColumnDefinitions>
-                                        <Image Grid.Column="0" Source="{Binding Champion, Converter={StaticResource ChampionToImageConverter}}"/>
-                                        <TextBlock Grid.Column="1" Text="{Binding Count}"/>
-                                        <TextBlock Grid.Column="2" Text="{Binding WinRate}"/>
-                                        <TextBlock Grid.Column="3" Text="{Binding AverageKDA}"/>
-                                    </Grid>
-                                </DataTemplate>
-                            </ListView.ItemTemplate>
-                        </ListView>
                         <StackPanel>
-                            <TextBlock Text="{Binding MainLane}"/>
+                            <TextBlock Text="50판기준 모스트" HorizontalAlignment="Center" FontSize="12"/>
+                            <ListView ItemsSource="{Binding MostChampions}">
+                                <ListView.ItemTemplate>
+                                    <DataTemplate x:DataType="model:MostChampion">
+                                        <Grid>
+                                            <Grid.ColumnDefinitions>
+                                                <ColumnDefinition Width="0.3*"/>
+                                                <ColumnDefinition Width="0.7*"/>
+                                            </Grid.ColumnDefinitions>
+                                            <Image Grid.Column="0" Width="50" Source="{Binding Champion, Converter={StaticResource ChampionToImageConverter}}"/>
+                                            <Grid Grid.Column="1">
+                                                <StackPanel>
+                                                    <TextBlock Margin="7 0 0 0">
+                                                        <Run Text="플레이 횟수 : "/>
+                                                        <Run Text="{Binding Count}"/>
+                                                    </TextBlock>
+
+                                                    <TextBlock Margin="7 0 0 0">
+                                                        <Run Text="승률 : "/>
+                                                        <Run Text="{Binding WinRate}"/>
+                                                    </TextBlock>
+
+                                                    <TextBlock Margin="7 0 0 0">
+                                                        <Run Text="평점 : "/>
+                                                        <Run Text="{Binding AverageKDA}"/>
+                                                    </TextBlock>
+                                                </StackPanel>
+                                            </Grid>
+
+                                        </Grid>
+
+                                    </DataTemplate>
+                                </ListView.ItemTemplate>
+                            </ListView>
+                        </StackPanel>
+                        
+                        
+                        <StackPanel>
+                            <TextBlock Text="최근 5판" HorizontalAlignment="Center" FontSize="12"/>
                             <ListView ItemsSource="{Binding LastestGames}">
                                 <ListView.ItemTemplate>
                                     <DataTemplate x:DataType="model:LastestGame">
                                         <Grid>
                                             <Grid.ColumnDefinitions>
                                                 <ColumnDefinition Width="0.3*"/>
-                                                <ColumnDefinition Width="0.4*"/>
-                                                <ColumnDefinition Width="0.3*"/>
+                                                <ColumnDefinition Width="0.7*"/>
                                             </Grid.ColumnDefinitions>
-                                            <Image Grid.Column="0" Source="{Binding Champion}"/>
-                                            <TextBlock Grid.Column="1">
-                                                <Run Text="{Binding Kill}"/>
-                                                <Run Text="/"/>
-                                                <Run Text="{Binding Death}"/>
-                                                <Run Text="/"/>
-                                                <Run Text="{Binding Assistant}"/>
-                                            </TextBlock>
-                                            <TextBlock Text="{Binding AverageKDA}"/>
+                                            <Image Grid.Column="0" Width="50" Source="{Binding Champion, Converter={StaticResource ChampionToImageConverter}}"/>
+                                            <Grid Grid.Column="1">
+                                                <StackPanel>
+                                                    <TextBlock Margin="7 0 0 0">
+                                                        <Run Text="킬 : "/>
+                                                        <Run Text="{Binding Kill}"/>
+                                                    </TextBlock>
+
+                                                    <TextBlock Margin="7 0 0 0">
+                                                        <Run Text="데스 : "/>
+                                                        <Run Text="{Binding Death}"/>
+                                                    </TextBlock>
+
+                                                    <TextBlock Margin="7 0 0 0">
+                                                        <Run Text="어시스트 : "/>
+                                                        <Run Text="{Binding Assist}"/>
+                                                    </TextBlock>
+                                                </StackPanel>
+                                            </Grid>
+                                            
+                                            
                                         </Grid>
                                     </DataTemplate>
                                 </ListView.ItemTemplate>

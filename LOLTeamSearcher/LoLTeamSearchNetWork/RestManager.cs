@@ -3,6 +3,7 @@ using NoticeDID.Common;
 using RestSharp;
 using System;
 using System.Diagnostics;
+using System.Net;
 using System.Threading.Tasks;
 
 namespace LOLTeamSearcherNetWork
@@ -58,6 +59,10 @@ namespace LOLTeamSearcherNetWork
                 var restRequest = CreateRequest(resource, method, parameterJson, queryParams, urlSegments, headers);
                 var response = await client.ExecuteAsync(restRequest);
 
+                if (response.StatusCode != HttpStatusCode.OK)
+                {
+                    throw new Exception(response.StatusCode.ToString());
+                }
                 resp = JsonConvert.DeserializeObject<T>(response.Content);
             }
             catch(Exception e)
