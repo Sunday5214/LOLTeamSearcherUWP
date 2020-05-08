@@ -9,11 +9,14 @@ UWP
 
 C#
 
-# Functions()
+# Feature(기능)
 ![lol1](https://user-images.githubusercontent.com/38588097/81426545-4fe7cc80-9194-11ea-8a83-02d801e8d790.png)
 
+First feature is match history searching, if you enter the user's sommor name in textbox, the history is searched and displayed
 사용자의 소환사 닉네임을 입력하면 전적을 검색해서 보여주는 기능입니다.
+
 
 ![lol2](https://user-images.githubusercontent.com/38588097/81426671-7c9be400-9194-11ea-8297-f439542aa4eb.png)
 
-챔피언선택화면입장시 나오게되는 XXX님이 입장하셨습니다. 라는 문구를 이용한 팀전적을 검색할 수 있는 기능입니다.
+Second feature is team history searching, if you enter XXX joined the lobby text, you can search team member match history
+챔피언 선택화면 입장시 나오게되는 XXX님이 입장하셨습니다. 라는 문구를 이용한 팀전적을 검색할 수 있는 기능입니다.
