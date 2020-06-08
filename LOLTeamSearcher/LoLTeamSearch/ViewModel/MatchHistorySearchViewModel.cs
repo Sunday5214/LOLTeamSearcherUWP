@@ -66,7 +66,9 @@ namespace LoLTeamSearch.ViewModel
         private async Task GetMatchData()
         {
             if (MatchHistories.Count == total) return;
+            if (MatchHistories.Count > 0 && SummorName != MatchHistories[0].GameMemberDatas[0].GameMemberName) MatchHistories.Clear();
             
+
             Match = await lolApiService.GetMatchs(Summor.AccountId, 13, startIdx, endIdx);
             await CombineData();
 
